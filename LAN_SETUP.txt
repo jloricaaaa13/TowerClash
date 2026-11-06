@@ -1,0 +1,66 @@
+=====================================================================
+ DEPARTMENT TOWER CLASH - LAN GUIDE
+ (shared leaderboard + LAN 1v1)
+=====================================================================
+
+All computers must be on the SAME Wi-Fi / LAN.
+Tip: some school Wi-Fi blocks computers from talking to each other.
+If nothing connects, use a phone hotspot and connect every laptop to it.
+
+
+---------------------------------------------------------------------
+ PART 1 - ONE SHARED LEADERBOARD FOR THE WHOLE CLASS
+---------------------------------------------------------------------
+One computer is the SERVER (it has XAMPP). Every other computer saves
+its accounts and scores in the server's MySQL.
+
+ON THE SERVER COMPUTER (only once):
+ 1. Open XAMPP Control Panel and START MySQL.
+ 2. phpMyAdmin > SQL tab > paste the contents of  sql\lan_setup.sql  > Go.
+    (This makes a MySQL user "towergame" / password "tower123" that can
+     only use the game database.)
+ 3. Find the server's IP address:
+      Start > type  cmd  > Enter > type  ipconfig  > Enter
+      Look for "IPv4 Address", for example 192.168.1.10
+ 4. Allow MySQL through the Windows Firewall. Open cmd AS ADMINISTRATOR:
+      netsh advfirewall firewall add rule name="MySQL 3306" dir=in action=allow protocol=TCP localport=3306
+ 5. (Only if other computers still cannot connect) XAMPP > MySQL "Config"
+    > my.ini. If you see a line  bind-address="127.0.0.1"  put a # in
+    front of it, save, then Stop and Start MySQL again.
+ The server computer itself can keep the normal settings (localhost / root).
+
+ON EVERY OTHER COMPUTER:
+ 1. Run the game. On the Login screen press DATABASE.
+ 2. SERVER IP: the server's IP (e.g. 192.168.1.10)
+    PORT: 3306   MYSQL USER: towergame   PASSWORD: tower123
+ 3. Press CONNECT. It should say "CONNECTED!".
+    The setting is remembered, so next time it connects by itself.
+ 4. Make an account (REGISTER) and play. Everyone now sees the same
+    leaderboard on the Dashboard.
+
+ "THIS COMPUTER" button = go back to this computer's own XAMPP MySQL.
+ If the server cannot be reached, the game still works and saves on
+ the computer itself ("SAVING TO: THIS COMPUTER (OFFLINE)").
+
+
+---------------------------------------------------------------------
+ PART 2 - LAN 1V1 (PLAYER VS PLAYER)
+---------------------------------------------------------------------
+ 1. Both players log in and press  LAN 1V1  on the Dashboard.
+ 2. Both pick a department (and CHANGE LINEUP if they want).
+ 3. PLAYER 1 presses HOST GAME. The screen shows "YOUR IP: ...".
+    The first time, Windows may ask to allow Java on the network:
+    tick "Private networks" and press ALLOW.
+ 4. PLAYER 2 types that IP in "TYPE THE HOST'S IP" and presses JOIN GAME.
+ 5. The battle starts on both computers after a 4-second countdown.
+    Host = LEFT tower, Player 2 = RIGHT tower ("YOU" marks yours).
+
+ Rules: no pause and no speed-up (the other player is still playing).
+        P or ESC = surrender. If the connection is lost, the match does
+        not count. Wins/losses are saved as "LAN 1V1 W / L".
+
+ Cannot connect?
+   - Both on the same Wi-Fi? Correct IP? Did Player 1 press HOST first?
+   - On the HOST computer, open cmd AS ADMINISTRATOR and run:
+       netsh advfirewall firewall add rule name="Tower Clash LAN" dir=in action=allow protocol=TCP localport=5555
+   - Both computers must have the SAME version of the game.
